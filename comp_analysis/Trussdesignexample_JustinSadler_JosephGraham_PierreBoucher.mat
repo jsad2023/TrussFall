@@ -1,0 +1,70 @@
+%Preliminary Truss Analysis
+
+%% Step 1 - Set Up Variables
+%I think that this step should be in a file. Do the rest in another file
+%Connection Matrix C
+
+%Row rreps joint # and col is member #
+%In example Truss there are 5 joints and 7 members. 5-joint/7-member truss.
+%5j/7m
+% Hence in C,  5 rows and 7 cols
+% sum of each column should only be 2 as each member is only connected to 
+%two joints
+% sum of each row  should be # of members attached
+%to corresponding joint
+%Indicate a connection of member 1 to joints 1 and 2 by placing a 1 at
+%(1,1) & (2,1)
+
+
+C=[1 1 0 0 0 0 0;
+    1 0 1 0 1 1 0;
+    0 1 1 1 0 0 0;
+    0 0 0 1 1 0 1;
+    0 0 0 0 0 1 1 ];
+
+%Connection matrix of support forces along each axis
+
+%Statically determined Truss, supported by one pin and one roller joint
+%3 unkonwn rxns
+%Put a 1 at joint j where unknown rxn force is
+
+Sx=[1 0 0; 
+0 0 0 ;
+0 0 0 ;
+0 0 0 ;
+0 0 0];
+
+Sy=[0 1 0 ;
+0 0 0 ;
+0 0 0 ;
+0 0 0 ;
+0 0 1];
+
+
+
+%Location Vectors
+%Truss defined by location of joints
+%j elemenmmts corresponding to location of jth joint
+X=[0;10;5;14;20];
+Y=[0;0;-7;-9;0];
+
+%Choose reference frame carefully and locate position of joints accordingly
+%for example X & Y j should have 5 #s (5js)
+
+%Load Vector
+%Known forces on each joint; vector has 2j elements
+% first j elements are loads in x dir. and last j elements are loads in y
+% dir.
+m=10;%kg; Test mass
+g=9.81; %m/s^2
+L=[0; %No horizontal load @ J1
+    0; %2
+    0;
+    0;
+    0; %5
+    0; %No vert. load @ J1
+    0;
+    0;
+    mg; %vertical load @ J4 For some reason sign is flipped
+    0];
+    save('TrussDesignExample_JustinSadler_JosephGraham_PierreBoucher.mat','C','Sx','Sy','X','Y','L')
