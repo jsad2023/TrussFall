@@ -1,0 +1,22 @@
+\ % EK301, Section A4, Truss Fall, Justin Sadler, Joseph Graham, Pierre Boucher, 3/17/2020
+Load: 25.000000 N
+Member forces in Newtons: 
+m1: 16.7 (C)
+m2: 0 Zero
+m3: 23.6 (C)
+m4: 16.7 (T)
+m5: 16.7 (T)
+m6: 16.7 (C)
+m7: 11.8 (T)
+m8: 8.33 (T)
+m9: 0 Zero
+m10: 11.8 (C)
+m11: 8.33 (T)
+m12: 0 Zero
+m13: 8.33 (C)
+Reaction forces in Newtons: 
+Sx1: 0
+Sy1: 16.7
+Sy2: 8.33
+Cost of the Truss: $141
+Theoretical max load / cost ratio in N/$: 0.0138
