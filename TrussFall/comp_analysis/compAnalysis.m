@@ -2,7 +2,6 @@ function compAnalysis(inputfile, varargin)
 %Main function for computational analysis of a truss
 %Format: compAnalysis(inputfile) or compAnalysis(inputfile, outputfile) 
 %Makes file that contains variables
-
 if fopen(inputfile) == -1
     disp('File open of input file is unsuccsessful')
 else
@@ -23,7 +22,7 @@ else
     cost = getCost(C, straw_lengths);
 
     %Get theoritical max load
-    max_load = getMaxLoad(T,straw_lengths);
+    max_load = getMaxLoad(T,straw_lengths,C);
     %Print Results
     if n == 1
         printResults(T,compress_or_tens, total_load, cost, max_load)

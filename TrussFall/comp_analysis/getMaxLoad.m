@@ -1,8 +1,9 @@
-function max_load = getMaxLoad(T,straw_lengths)
+function max_load = getMaxLoad(T,straw_lengths, C)
 %Calculates theoritical max load of the truss. Will ask user if to use
 %either the euler buckling fit or the empirical fit
 %Format: max_load = getMaxLoad(Forces_in_members, straw_lengths)
  
+[~, members] = size(C);
 %ask user if whether to use  the euler buckling fit or the empirical fit
 disp('Use empirical fit or euler buckling fit to get theortical max load?')
 method = menu('Choose a method:', 'Euler Buckling Fit', 'Empirical Fit');
@@ -15,7 +16,7 @@ elseif method == 2
 end
     
 %Get scaling ratios
-SR = (T(1:13))' ./ buckling; 
+SR = (T(1:members))' ./ buckling; 
 
 %Get Max Load
 max_load = 1 / max(SR);
