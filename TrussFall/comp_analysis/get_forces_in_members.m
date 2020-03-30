@@ -49,7 +49,7 @@ T = inv(A) * L;
 
 %Rounds variables
 T = round(T, 3, 'significant');
-straw_lengths = round(straw_lengths,1);
+straw_lengths = round(straw_lengths,3);
 
 
 %Finds which forces are positive or negative
