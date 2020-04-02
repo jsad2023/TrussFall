@@ -23,6 +23,5 @@ delta_buckling = diff1 + diff2;
 disp("Buckling Forces with Uncertainity")
 disp("Will display in same order of vector")
 for i = 1:length(buckling)
-    fprintf("m%d: %.2f ± %.3f Newtons\n", i, buckling(i), delta_buckling(i))
+    fprintf("%d. %.2f ± %.3f Newtons\n", i, buckling(i), abs(delta_buckling(i)))
 end
-
