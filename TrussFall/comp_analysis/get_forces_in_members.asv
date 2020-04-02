@@ -44,7 +44,8 @@ A(1:joints, ( members + 1 ):( members + 3 ) ) = Sx;
 A( (joints + 1 ): (2 * joints), ( members + 1 ):( members + 3 ))  = Sy;   
 
 %% Gets Tensions of each memeber 1:members will be member forces, 
-T = inv(A) * L * 7.592;
+L = L * 6.4372;
+T = inv(A) * L;
 
 %% Rounds variables
 T = round(T, 3, 'significant');
