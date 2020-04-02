@@ -22,7 +22,7 @@ else
     cost = getCost(C, straw_lengths);
 
     %Get theoritical max load
-    max_load = getMaxLoad(T,straw_lengths,C);
+    max_load = GetMaxLoad(T,straw_lengths,C);
     %Print Results
     if n == 1
         printResults(T,compress_or_tens, total_load, cost, max_load)

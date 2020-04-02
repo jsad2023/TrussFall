@@ -16,7 +16,7 @@ buckling = A * straw_lengths  .^ (-a);
 %Use partial derivatives to calculate the differential of buckling forche
 %which will be our error
 %
-diff1 = delta_A * straw_lengths ^ (-a);
+diff1 = delta_A * straw_lengths .^ (-a);
 diff2 = -A * delta_a * log(straw_lengths) .* straw_lengths .^ (-a);
 delta_buckling = diff1 + diff2;
 
