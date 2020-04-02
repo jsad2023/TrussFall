@@ -1,0 +1,22 @@
+function getBuckling(straw_lengths)
+%Calculates the buckling force and the uncertainity in the buckling force
+%based on the empirical best fit from the data of the whole class
+%Equation: W(N) = A  * L ^ -a; Paramters A, a;
+
+%A = 197.7 +- 56.9
+A = 197.7;
+delta_A = 56.9;
+%a = 1.238 +- 0.114
+a = 1.238;
+delta_a = 0.114;
+%Calculate Buckling
+buckling = A * straw_lengths  ^ (-a);
+%Calculate Error
+%Use partial derivatives to calculate the differential which will be our
+%error
+delta_buckling = 
+
+disp(buckling)
+disp(delta_buckling)
+end
+
