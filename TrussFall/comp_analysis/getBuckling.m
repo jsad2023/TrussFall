@@ -2,26 +2,17 @@ function getBuckling(straw_lengths)
 %Calculates the buckling force and the uncertainity in the buckling force
 %based on the empirical best fit from the data of the whole class
 %Straw_lengths - vector containing the length of straws in centimeters
-%Equation: W(N) = A  * L ^ -a; Paramters A, a;
+%Equation: W(N) = B  * L ^ -2 +- 2 * sigma; Paramters B, sigma;
 
-%A = 197.7 +- 56.9
-A = 197.7;
-delta_A = 56.9;
-%a = 1.238 +- 0.114
-a = 1.238;
-delta_a = 0.114;
-%Calculate Buckling
-buckling = A * straw_lengths  .^ (-a);
-%Calculate Error
-%Use partial derivatives to calculate the differential of buckling forche
-%which will be our error
-%
-diff1 = delta_A * straw_lengths .^ (-a);
-diff2 = -A * delta_a * log(straw_lengths) .* straw_lengths .^ (-a);
-delta_buckling = diff1 + diff2;
+%B = 1400 N*cm^2; sigma = 1.6 N 
+B = 1400; sigma = 1.6;
+buckling = B * L .^ (-2);
+delta_buckling = 2 * sigma;
 
+%Displays results
 disp("Buckling Forces with Uncertainity")
 disp("Will display in same order of vector")
 for i = 1:length(buckling)
     fprintf("%d. %.2f ± %.3f Newtons\n", i, buckling(i), abs(delta_buckling(i)))
+end
 end

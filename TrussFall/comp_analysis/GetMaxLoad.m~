@@ -7,8 +7,8 @@ function max_load = GetMaxLoad(T,straw_lengths, C)
 %ask user if whether to use  the euler buckling fit or the empirical fit
 
 %We're using empircal fit to calculate buckling force
-B = 1400;
-buckling = B * straw_lengths .^ (-2);
+A = 197.7; a = 1.238;
+buckling = A * straw_lengths .^ (-a);
 
 
 compression_forces = T(1:members);

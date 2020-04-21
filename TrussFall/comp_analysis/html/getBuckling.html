@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>compAnalysis</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-02"><meta name="DC.source" content="compAnalysis.m"><style type="text/css">
+      --><title>getBuckling</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-02"><meta name="DC.source" content="getBuckling.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,77 +66,61 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> compAnalysis(inputfile, varargin)
-<span class="comment">%Main function for computational analysis of a truss</span>
-<span class="comment">%Format: compAnalysis(inputfile) or compAnalysis(inputfile, outputfile)</span>
-<span class="comment">%Makes file that contains variables</span>
-<span class="keyword">if</span> fopen(inputfile) == -1
-    disp(<span class="string">'File open of input file is unsuccsessful'</span>)
-<span class="keyword">else</span>
-    n = nargin;
-    <span class="comment">%Opens the ouptut file to write</span>
-    <span class="keyword">if</span> n == 2
-        outputfile = varargin{1};
-        <span class="keyword">if</span> fopen(outputfile) ~= -1
-            error(<span class="string">'Data file is already made'</span>)
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    <span class="comment">%Change the input file for different problems</span>
-    <span class="comment">%calculates forces</span>
-    [T, compress_or_tens, straw_lengths, total_load] = get_forces_in_members(inputfile);
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> getBuckling(straw_lengths)
+<span class="comment">%Calculates the buckling force and the uncertainity in the buckling force</span>
+<span class="comment">%based on the empirical best fit from the data of the whole class</span>
+<span class="comment">%Straw_lengths - vector containing the length of straws in centimeters</span>
+<span class="comment">%Equation: W(N) = A  * L ^ -a; Paramters A, a;</span>
 
-    <span class="comment">%Get Cost</span>
-    load(inputfile,<span class="string">'C'</span>);
-    cost = getCost(C, straw_lengths);
+<span class="comment">%A = 197.7 +- 56.9</span>
+A = 197.7;
+delta_A = 56.9;
+<span class="comment">%a = 1.238 +- 0.114</span>
+a = 1.238;
+delta_a = 0.114;
+<span class="comment">%Calculate Buckling</span>
+buckling = A * straw_lengths  .^ (-a);
+<span class="comment">%Calculate Error</span>
+<span class="comment">%Use partial derivatives to calculate the differential of buckling forche</span>
+<span class="comment">%which will be our error</span>
+<span class="comment">%</span>
+diff1 = delta_A * straw_lengths .^ (-a);
+diff2 = -A * delta_a * log(straw_lengths) .* straw_lengths .^ (-a);
+delta_buckling = diff1 + diff2;
 
-    <span class="comment">%Get theoritical max load</span>
-    max_load = GetMaxLoad(T,straw_lengths,C);
-    <span class="comment">%Print Results</span>
-    <span class="keyword">if</span> n == 1
-        printResults(T,compress_or_tens, total_load, cost, max_load)
-    <span class="keyword">elseif</span> n == 2
-        outputfile = varargin{1};
-        printResults2File(T,compress_or_tens, total_load, cost, max_load, outputfile)
-    <span class="keyword">end</span>
+disp(<span class="string">"Buckling Forces with Uncertainity"</span>)
+disp(<span class="string">"Will display in same order of vector"</span>)
+<span class="keyword">for</span> i = 1:length(buckling)
+    fprintf(<span class="string">"%d. %.2f &plusmn; %.3f Newtons\n"</span>, i, buckling(i), abs(delta_buckling(i)))
 <span class="keyword">end</span>
-<span class="keyword">end</span>
-</pre><pre class="codeoutput error">Not enough input arguments.
-Error in compAnalysis (line 5)
-if fopen(inputfile) == -1</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-function compAnalysis(inputfile, varargin)
-%Main function for computational analysis of a truss
-%Format: compAnalysis(inputfile) or compAnalysis(inputfile, outputfile) 
-%Makes file that contains variables
-if fopen(inputfile) == -1
-    disp('File open of input file is unsuccsessful')
-else
-    n = nargin;
-    %Opens the ouptut file to write
-    if n == 2
-        outputfile = varargin{1};
-        if fopen(outputfile) ~= -1
-            error('Data file is already made')
-        end
-    end
-    %Change the input file for different problems
-    %calculates forces
-    [T, compress_or_tens, straw_lengths, total_load] = get_forces_in_members(inputfile);
+function getBuckling(straw_lengths)
+%Calculates the buckling force and the uncertainity in the buckling force
+%based on the empirical best fit from the data of the whole class
+%Straw_lengths - vector containing the length of straws in centimeters
+%Equation: W(N) = A  * L ^ -a; Paramters A, a;
 
-    %Get Cost
-    load(inputfile,'C');
-    cost = getCost(C, straw_lengths);
+%A = 197.7 +- 56.9
+A = 197.7;
+delta_A = 56.9;
+%a = 1.238 +- 0.114
+a = 1.238;
+delta_a = 0.114;
+%Calculate Buckling
+buckling = A * straw_lengths  .^ (-a);
+%Calculate Error
+%Use partial derivatives to calculate the differential of buckling forche
+%which will be our error
+%
+diff1 = delta_A * straw_lengths .^ (-a);
+diff2 = -A * delta_a * log(straw_lengths) .* straw_lengths .^ (-a);
+delta_buckling = diff1 + diff2;
 
-    %Get theoritical max load
-    max_load = GetMaxLoad(T,straw_lengths,C);
-    %Print Results
-    if n == 1
-        printResults(T,compress_or_tens, total_load, cost, max_load)
-    elseif n == 2
-        outputfile = varargin{1};
-        printResults2File(T,compress_or_tens, total_load, cost, max_load, outputfile)
-    end
-end
+disp("Buckling Forces with Uncertainity")
+disp("Will display in same order of vector")
+for i = 1:length(buckling)
+    fprintf("%d. %.2f ± %.3f Newtons\n", i, buckling(i), abs(delta_buckling(i)))
 end
 
 ##### SOURCE END #####

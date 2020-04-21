@@ -8,8 +8,6 @@ Alternate names:
   The Truss Terriers,
   
  Notes to self:
-***Both GetMaxLoad.m and getBuckling need to be edited to adjust to the new uncertainity analysis shown
-in the Final version of the Truss Manual***
  
 Maybe functions are_values_correct and are_values_valid should be put in the main script
 Buckling  == max load for given length (on class data from blackboard

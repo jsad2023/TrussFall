@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>get_forces_in_members</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-01"><meta name="DC.source" content="get_forces_in_members.m"><style type="text/css">
+      --><title>get_forces_in_members</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-02"><meta name="DC.source" content="get_forces_in_members.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -77,9 +77,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">%Puts numbers of joints and members into variables</span>
 
 [joints, members] = size(C);
-</pre><pre class="codeoutput error">Not enough input arguments.
-Error in get_forces_in_members (line 9)
-load(inputfile,'C', 'Sx', 'Sy', 'X', 'Y', 'L')</pre><h2 id="4">Constructing the equilibrium equations</h2><pre class="codeinput">A = zeros( 2*joints, members+3); <span class="comment">%Pre-allocates coefficient matrix</span>
+</pre><h2 id="4">Constructing the equilibrium equations</h2><pre class="codeinput">A = zeros( 2*joints, members+3); <span class="comment">%Pre-allocates coefficient matrix</span>
 straw_lengths = zeros(1, members); <span class="comment">%Pre-allocates vector containing length of straws</span>
 total_load = sum(L);
 
@@ -108,7 +106,7 @@ A(1:joints, ( members + 1 ):( members + 3 ) ) = Sx;
 A( (joints + 1 ): (2 * joints), ( members + 1 ):( members + 3 ))  = Sy;
 </pre><h2 id="6">Gets Tensions of each memeber 1:members will be member forces,</h2><pre class="codeinput">T = inv(A) * L;
 </pre><h2 id="7">Rounds variables</h2><pre class="codeinput">T = round(T, 3, <span class="string">'significant'</span>);
-straw_lengths = round(straw_lengths,3);
+
 
 
 <span class="comment">%%Finds which forces are positive or negative</span>
@@ -175,7 +173,7 @@ T = inv(A) * L;
 
 %% Rounds variables
 T = round(T, 3, 'significant');
-straw_lengths = round(straw_lengths,3);
+
 
 
 %%Finds which forces are positive or negative
