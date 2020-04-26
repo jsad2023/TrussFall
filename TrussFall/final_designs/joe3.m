@@ -18,5 +18,5 @@ L(joints + 'F' - 64) = 1;
 %[values_are_valid, is_statically_determinate] = are_values_valid(C,X,Y,Sx,Sy,L)
 %values_are_correct = are_values_correct(C, X, Y, Sx, Sy, L)
 
-save('Joe3.mat', 'C', 'Sy', 'Sy', 'L', 'X', 'Y')
+save('Joe3.mat', 'C', 'Sy', 'Sx', 'L', 'X', 'Y')
 
