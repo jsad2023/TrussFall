@@ -1,2 +1,4 @@
 # TrussFall
-Repository For MATLAB code for Truss Analysis
+Members: Justin Sadler, Jospeh Graham, and Pierre Boucher
+This is a repository of the MATLAB code for computational analysis. The 
+final version of the code used is in TrussFall/comp_analysis
