@@ -1,3 +1,4 @@
+ls
 %loads file and puts data in vectors
 load length_vs_strength.mat -ascii
 mat = length_vs_strength;

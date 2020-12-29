@@ -1,18 +1,17 @@
-function [T, compress_or_tens, straw_lengths, total_load] = get_forces_in_members(filename)
+function [T, compress_or_tens, straw_lengths, total_load] = get_forces_in_members(inputfile)
+%%Header
 %Format: [T, compres_or_tens, uncertainties, straw_lengths] = get_forces_in_members(filename)
-
 %
 % JS Algorithm - Steps 2 -7 
 %I think the rest of this should be in a seprate file
 %2.
-%Load variables:
-load(filename,'C', 'Sx', 'Sy', 'X', 'Y', 'L')
+%% Load variables:
+load(inputfile,'C', 'Sx', 'Sy', 'X', 'Y', 'L')
 %Puts numbers of joints and members into variables
 
 [joints, members] = size(C);
 
-%3. 
-%Constructing the equilibrium equations
+%% Constructing the equilibrium equations 
 
 A = zeros( 2*joints, members+3); %Pre-allocates coefficient matrix
 straw_lengths = zeros(1, members); %Pre-allocates vector containing length of straws
@@ -38,21 +37,21 @@ for j = 1:members
     A((row2 + joints),j) = - y_dist / dist;
 end
 
-% Puts Sx and Sy into matrix A 
+%% Puts Sx and Sy into matrix A 
 %Sx are put in the first half of the rows of A, and last three columns
 
 A(1:joints, ( members + 1 ):( members + 3 ) ) = Sx;
 A( (joints + 1 ): (2 * joints), ( members + 1 ):( members + 3 ))  = Sy;   
 
-%Gets Tensions of each memeber 1:members will be member forces, 
+%% Gets Tensions of each memeber 1:members will be member forces, 
 T = inv(A) * L;
 
-%Rounds variables
+%% Rounds variables
 T = round(T, 3, 'significant');
-straw_lengths = round(straw_lengths,1);
 
 
-%Finds which forces are positive or negative
+
+%%Finds which forces are positive or negative
 
 compress_or_tens = cell(1,members);
 for i = 1:members
